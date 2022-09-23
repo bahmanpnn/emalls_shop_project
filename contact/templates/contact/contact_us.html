@@ -1,0 +1,72 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}تماس با ما{% endblock  %}
+{% block content %}
+<div id="contact-page" class="container">
+    <div class="bg"> 	
+            <div class="col-sm-8">
+                <div class="contact-form">
+                    <h2 class="title text-center">با ما در ارتباط باشیـد</h2>
+                    <div class="status alert alert-success" style="display: none"></div>
+                    <form id="main-contact-form" class="contact-form row" name="contact-form"
+                    action="{% url 'contact_page' %}" method="post">
+                    {% csrf_token %}                 
+                    <div class='col-md-6 form-group'  >
+                        {{form.email.label_tag}}
+                        {{form.email}}
+                        {{form.email.errors}}
+                    </div>
+                    <div class='col-md-6 form-group' >
+                        {{form.fullname.label_tag}}
+                        {{form.fullname}}
+                        {{form.fullname.errors}}
+                    </div>
+                    <div class='col-md-12 form-group' >
+                        {{form.title.label_tag}}
+                        {{form.title}}
+                        {{form.title.errors}}
+                    </div>
+                    <div class='col-md-12 form-group ' >
+                        {{form.message.label_tag}}
+                        {{form.message}}
+                        {{form.message.errors}}
+                    </div>
+                    
+                    <div class="form-group col-md-12">
+                        <button type="submit" class="btn btn-primary pull-right">ارسال</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="contact-info">
+                    <h2 class="title text-center">اطلاعات تماس</h2>
+                    <address>
+                        <p>{{ site_setting.site_name}}</p>
+                        <p>آدرس:{{ site_setting.address }}</p>
+                        {% if site_setting.phone %}
+                            <p>تلفن تماس :{{ site_setting.phone }}</p>
+                        {% endif %}
+                        {% if site_setting.fax %}
+                            <p>فکس :{{ site_setting.fax }}</p>
+                        {% endif %}
+                        {% if site_setting.email %}
+                            <p style="font-family: tahoma;">ایمیـل :{{ site_setting.email }}</p>
+                        {% endif %}
+                    </address>
+                    <div class="shipping text-center"><!--shipping-->
+                        {% for banner in banners %}
+                            </br>
+                            <a href="{{banner.url}}">
+                                <img src="{{banner.image.url}}" alt="">
+                            </a>
+                            </br>
+                            </br>   
+                        {% endfor %}
+                    </div><!--/shipping-->
+                </div>
+            </div>    			
+        </div>  
+    </div>	
+</div><!--/#contact-page-->
+
+{% endblock  %}

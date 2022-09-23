@@ -1,0 +1,263 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% load polls_extras %}
+{% block title %}
+    {{ product.title }}
+{% endblock %}
+{% block header_references %}
+
+<link href="/static/lib/image_lightbox/css/lightbox.css" rel="stylesheet">
+{% endblock  %}
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 padding-right">
+                <div class="product-details"><!--product-details-->
+                    <div class="col-sm-5">
+                        <div class="view-product">
+                            {% if product.image %}
+                                <img src="{{product.image.url}}" id='main_image' />
+                                {% else %}
+                                <img src="/static/images/product-details/1.jpg" alt="" id='main_image'/>
+                                {% endif %}
+                                <h3>
+                                    <a style="color:white" id="show_large_image_modal" href="{{product.image.url}}" data-lightbox="product-image">
+                                        بزرگنمایـی
+                                    </a>
+                                </h3>
+                        </div>
+                        <div id="similar-product" class="carousel slide" data-ride="carousel">
+                            
+                              <!-- Wrapper for slides -->
+                                <div class="carousel-inner">
+                                    {% for group in product_galleries_group %}
+                                    <div class="item {% if forloop.first %}active{% endif %}">
+                                        {% for gallery in group %}
+                                            <a onclick="showLargeImage('{{gallery.image.url}}')" >
+                                                <img src="{{gallery.image.url}}" width="75" hight="75" alt="">
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}                                   
+                                </div>
+
+                              <!-- Controls -->
+                              <a class="right item-control" href="#similar-product" data-slide="next">
+                                <i class="fa fa-angle-right"></i>
+                              </a>
+                              <a class="left item-control" href="#similar-product" data-slide="prev">
+                                <i class="fa fa-angle-left"></i>
+                              </a>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="product-information"><!--/product-information-->
+                            <img src="/static/images/product-details/new.png" class="newarrival" alt="" />
+                            <div>
+                                <h2>{{product.title}}</h2>
+                                <p>شناسـه :{{product.id}}</p>
+                            </div>
+                            <div>
+                                <span>
+                                    <span>قیمت : {{product.price | three_digits_currency}}</span>
+                                </span>
+                                <span>
+                                    {% csrf_token %}
+                                    <label>تعداد :</label>
+                                    <input type="number" min="1" id="product_count" value="1" class="search_box"/>
+                                    <button onclick="addProductToBasket({{product.id}})" class="btn btn-fefault cart">
+                                        <i class="fa fa-shopping-cart"></i>
+                                    افزودن به سبد خرید
+                                    </button>
+                                </span>
+                            </div>
+                            <div>
+                                <p><b>موجـودی :</b> در انبـار موجود می باشد</p>
+                                {% if product.brand %}
+                                <p><b>برنـد :</b> {{product.brand}} </p>
+                                {% endif %}
+                            
+                            </div>
+                            
+                        </div><!--/product-information-->
+                    </div>
+                </div><!--/product-details-->
+                
+                <div class="category-tab shop-details-tab"><!--category-tab-->
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#details" data-toggle="tab">جزئیات</a></li>
+{#                            <li><a href="#reviews" data-toggle="tab">نظرات ({{comments.count}})</a></li>#}
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in" id="details" >
+                            <div class="col-md-12">
+                                {{product.description | safe}}
+                            </div>
+                        </div> 
+                        <div class="tab-pane fade" id="reviews" >
+{#                            <div class="col-sm-12">#}
+{#                                <div class="response-area" id="comments_area">#}
+{#                                    <h2> نظرات ({{ comments_count }})</h2>#}
+{#                                        <ul class="media-list">#}
+{#                                            {% for comment in comments %}#}
+{#                                                <li class="media" id="single_comment_box_{{comment.id}}">#}
+{#                                                    <a class="pull-right" href="#">#}
+{#                                                        <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">#}
+{#                                                    </a>#}
+{#                                                    <div class="media-body">#}
+{#                                                        <ul class="sinlge-post-meta">#}
+{#                                                            <li><i class="fa fa-user"></i>{{ comment.user }}</li>#}
+{#                                                            <li><i class="fa fa-clock-o"></i> {{ comment.create_date | time }}</li>#}
+{#                                                            <li>#}
+{#                                                                <i class="fa fa-calendar"></i> {{ comment.create_date|show_jalali_date }}#}
+{#                                                            </li>#}
+{#                                                        </ul>#}
+{#                                                        <p>#}
+{#                                                            {{ comment.text }}#}
+{#                                                        </p>#}
+{#                                                        <a class="btn btn-primary" onclick="fillParentId({{ comment.id }})"><i#}
+{#                                                                class="fa fa-reply"></i>پاسـخ</a>#}
+{#                                                    </div>#}
+{#                                                </li>#}
+{#                                        #}
+{#                                                {% for sub_comment in comment.product_comment_set.all %}#}
+{#                                                    <li class="media second-media" id='single_comment_box_{{comment.id}}'>#}
+{#                                                        <a class="pull-right" href="#">#}
+{#                                                            <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">#}
+{#                                                        </a>#}
+{#                                                        <div class="media-body">#}
+{#                                                            <ul class="sinlge-post-meta">#}
+{#                                                                <li><i class="fa fa-user"></i>{{ sub_comment.user }}</li>#}
+{#                                                                <li><i class="fa fa-clock-o"></i> {{ sub_comment.create_date | time }}#}
+{#                                                                </li>#}
+{#                                                                <li>#}
+{#                                                                    <i class="fa fa-calendar"></i> {{ sub_comment.create_date|show_jalali_date }}#}
+{#                                                                </li>#}
+{#                                                            </ul>#}
+{#                                                            <p>#}
+{#                                                                {{ sub_comment.text }}#}
+{#                                                            </p>#}
+{#                                                        </div>#}
+{#                                                    </li>#}
+{#                                                {% endfor %}#}
+{#                                            {% endfor %}#}
+{#                                        #}
+{#                                        </ul>#}
+{#                                </div><!--/Response-area-->#}
+{#                                <div class="replay-box" id="comment_form">#}
+{#                                    {% if request.user.is_authenticated %}#}
+{#                                        <div class="row">#}
+{#                                            <div class="col-sm-12">#}
+{#                                                <h2>نظـر خود را بنویسیـد</h2>#}
+{#                                                <div class="text-area">#}
+{#                                                    <input type="hidden" id="parent_id" value="">#}
+{#                                                    <div class="blank-arrow">#}
+{#                                                        <label>متن پیام</label>#}
+{#                                                    </div>#}
+{#                                                    <span>*</span>#}
+{#                                                    <textarea name="message" rows="11" id="commentText"></textarea>#}
+{#                                                    <a class="btn btn-primary" onclick="sendArticleComment({{ product.id }})">ارسـال#}
+{#                                                        نظـر</a>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% else %}#}
+{#                                        <div class="alert alert-warning">#}
+{#                                            برای درج نظر می بایست <a href="{% url 'login_page' %}">لاگین</a> کنید#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                </div><!--/Repaly Box-->#}
+{#                            </div>#}
+                        </div>                      
+                    </div>
+                </div><!--/category-tab-->
+                
+                <div class="recommended_items"><!--recommended_items-->
+                    <h2 class="title text-center">محصولات پیشنهادی</h2>
+                    
+                    <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for group in related_products %}
+                            <div class="item {% if forloop.first %}active{% endif %}">	
+                                {% for product in group %}
+                                    {% include 'includes/product_item_partial.html' with product=product colsize=4 %}
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if related_products|length > 1 %}
+                            </div>
+                            <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                            <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                            <i class="fa fa-angle-right"></i>
+                            </a>		
+                        {% endif %}
+                    </div>
+                </div><!--/recommended_items-->
+                
+            </div>
+            
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    {% render_partial 'product_module.views.product_category_components'%}
+                    {% render_partial 'product_module.views.product_brand_components'%}
+                    
+                    
+                    <div class="shipping text-center"><!--shipping-->
+                        {% for banner in banners %}
+                            <a href="{{banner.url}}">
+                            </br>
+                                <img src="{{banner.image.url}}" alt="">
+                            </a>
+                            </br>
+                            </br>
+                        {% endfor %}
+                    </div><!--/shipping-->
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div> 
+</section>
+
+{% block footer_references %}
+{#    <script>#}
+{#        function showLargeImage(image) {#}
+{#            $('#main_image').attr('src',image);#}
+{#            $('#show_large_image_modal').attr('href',image);#}
+{#        }#}
+{#        function sendproductcommenttext(productId) {#}
+{#            var comment=$('#comment_text').val()#}
+{#            var parentId=$('#parent_id').val()#}
+{#            $.get('/products/add-product-comment/',{#}
+{#                product_comment:comment,#}
+{#                product_id:productId,#}
+{#                parent_id:parentId#}
+{#            }).then(response=>{#}
+{#                console.log(response)#}
+{#                $('#comments_area').html(response)#}
+{#                $('#comment_text').val('')#}
+{#                $('#parent_id').val('')#}
+{#                if(parentId !== null && parentId !== ''){#}
+{#                    document.getElementById('single_comment_box_'+parentId).scrollIntoView({behavior:"smooth"})#}
+{#                }#}
+{#                else{#}
+{#                    document.getElementById('comments_area').scrollIntoView({behavior:"smooth"})#}
+{#                }#}
+{#            })#}
+{#        }#}
+{#        function fillparentid(parentId) {#}
+{#            $("#parent_id").val(parentId)#}
+{#            document.getElementById('comment_form').scrollIntoView({behavior:"smooth"})#}
+{#        }#}
+{#    </script>#}
+    <script src="/static/lib/image_lightbox/js/lightbox.js"></script>
+{% endblock  %}
+{% endblock %}

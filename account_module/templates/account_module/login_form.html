@@ -1,0 +1,53 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}
+صفحه ورود
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<section id="form"><!--form-->
+			<div class="row">
+{#				<div class="col-sm-4 col-sm-offset-1">#}
+{#					<div class="login-form"><!--login form-->#}
+{#						<h2>ورود به حساب کاربـری :</h2>#}
+{#						<form action="#">#}
+{#							<input type="text" placeholder="نام کاربری" />#}
+{#							<input type="email" placeholder="آدرس ایمیـل" />#}
+{#							<span>#}
+{#								<input type="checkbox" class="checkbox">#}
+{#								مرا بخاطـر بسپـار#}
+{#							</span>#}
+{#							<span>#}
+{#								<a href="forget-password.html">رمـز عبـور خود را فراموش کرده ام</a>#}
+{#							</span>#}
+{#							<button type="submit" class="btn btn-default">ورود</button>#}
+{#						</form>#}
+{#					</div><!--/login form-->#}
+{#				</div>#}
+{#				<div class="col-sm-1">#}
+{#					<h2 class="or">یا</h2>#}
+{#				</div>#}
+				<div class="col-sm-6 col-md-offset-3">
+					<div class="signup-form"><!--sign up form-->
+						<h2>ورود به حساب کاربری</h2>
+						<form method="post" action="{% url 'login_page' %}">
+                            {% csrf_token %}
+{#                            {{ login_form }}#}
+{#                            {{ login_form.errors }}#}
+                            {{ login_form.email.label_tag }}
+                            {{ login_form.email }}
+                            {{ login_form.email.errors }}
+
+                            {{ login_form.password.label_tag }}
+                            {{ login_form.password }}
+                            {{ login_form.password.errors }}
+                            <p><a href="{% url 'forget_password_page' %}">فراموشی کلمه عبور</a></p>
+{# error haye hame bakhsh ha hamin paeen neshoon mide va bayad baghie error ha pak beshan                           {{ login_form.errors }}#}
+							<button type="submit" class="btn btn-default">ورود</button>
+						</form>
+					</div><!--/sign up form-->
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}

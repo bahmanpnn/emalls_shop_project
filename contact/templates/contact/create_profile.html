@@ -1,0 +1,37 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}تماس با ما{% endblock  %}
+{% block content %}
+<div id="contact-page" class="container">
+    <div class="bg"> 	
+            <div class="col-sm-8">
+                <div class="contact-form">
+                    <h2 class="title text-center">با ما در ارتباط باشیـد</h2>
+                    <div class="status alert alert-success" style="display: none"></div>
+                    <form id="main-contact-form" class="contact-form row" name="contact-form"
+                    action="{% url 'create_profile_page' %}" method="post" enctype='multipart/form-data'>
+                    {% csrf_token %}
+                    {{form}}
+                    <div class="form-group col-md-12">
+                        <button type="submit" class="btn btn-primary pull-right">ارسال</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="contact-info">
+                    <h2 class="title text-center">اطلاعات تماس</h2>
+                    <address>
+                        <p>گروه اولنچ</p>
+                        <p>ایـران -گلستان-گرگان</p>
+                        <p>مجتـمع تجـاری تفریحـی شمس - طبـقه 2 - پلاک 54</p>
+                        <p>تلفن تماس :09303831775</p>
+                        <p>فکس : 80 21 24 36 044</p>
+                        <p style="font-family: tahoma;">ایمیـل :bahmanpn@gmail.com</p>
+                    </address>
+                </div>
+            </div>    			
+        </div>  
+    </div>	
+</div><!--/#contact-page-->
+
+{% endblock  %}

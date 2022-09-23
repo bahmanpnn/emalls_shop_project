@@ -1,0 +1,14 @@
+asgiref==3.5.2
+certifi==2022.9.14
+charset-normalizer==2.1.1
+Django==4.1
+django-jalali-date==1.0.1
+django-render-partial==0.4
+idna==3.4
+jdatetime==4.1.0
+Pillow==9.2.0
+requests==2.28.1
+sorl-thumbnail==12.9.0
+sqlparse==0.4.2
+tzdata==2022.1
+urllib3==1.26.12

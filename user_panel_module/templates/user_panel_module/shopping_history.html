@@ -1,0 +1,36 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% load polls_extras %}
+{% block title %}
+    تاریخچه خرید ها
+{% endblock  %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-responsive table-hover table-striped">
+                <tr>
+                    <th class="text-right">شناسه</th>
+                    <th class="text-right">تاریخ نهایی خرید</th>
+                    <th class="text-right">قیمت نهایی خرید</th>
+                    <th class="text-right">دستورات</th>
+                </tr>
+                {% for order in object_list %}
+                <tr>
+                    <td class="text-right">{{order.id}}</td>
+                    <td class="text-right">{{order.payment_date| show_jalali_date}}</td>
+                    <td class="text-right">{{order.calculate_total_price| three_digits_currency}}</td>
+                    <td class="text-right">
+                        <a href="{% url 'shopping_detail_history' order_id=order.id %}" class="btn btn-success">جزییات</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            
+        </div>
+        <div class="col-md-4">
+            {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+        </div>
+    </div>
+</div>
+{% endblock  %}

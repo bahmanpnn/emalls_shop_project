@@ -1,0 +1,30 @@
+{% load thumbnail %}
+{% load polls_extras %}
+<div class="col-sm-{{colsize}}">
+    <div class="product-image-wrapper">
+        <div class="single-products">
+            <div class="productinfo text-center">
+                {% if product.image %}
+{#                    <img src="{{ product.image.url }}" alt="">#}
+                    {% thumbnail product.image '268x250' quality=90 crop='center' as im %}
+                        <img src="{{ im.url }}">
+                    {% endthumbnail %}
+                    {% else %}
+                    <img src="/static/images/shop/product.jpg" alt="">
+                {% endif %}
+                <h2>{{ product.price | three_digits_currency }} </h2>
+                <p>{{ product.title }}</p>
+                <a href="#" class="btn btn-default add-to-cart"><i
+                        class="fa fa-shopping-cart"></i>مشاهده جزییات</a>
+            </div>
+            <div class="product-overlay">
+                <div class="overlay-content">
+                    <h2>{{ product.price | three_digits_currency }} </h2>
+                    <p>{{ product.short_description }}</p>
+                    <a href="{{product.get_absolute_url}}" class="btn btn-default add-to-cart"><i
+                            class="fa fa-shopping-cart"></i>مشاهده جزییات</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

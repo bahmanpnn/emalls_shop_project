@@ -1,0 +1,30 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% block title %}
+edit profile page
+{% endblock  %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <form enctype="multipart/form-data" action="{% url 'edit_user_profile_page' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">ثبت</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            {% if current_user.avatar %}
+                <a class="thumbnail">
+                    <img style="width:100%" src="{{current_user.avatar.url}}">
+                </a>
+                {% else %}
+                <a class="thumbnail">
+                    <img style="width:100%" src="/static/images/profile/user_profile.jpg">
+                </a>
+            {% endif %}
+            {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+        </div>
+    </div>
+</div>
+{% endblock  %}
