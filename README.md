@@ -5,6 +5,5 @@ this is one of my first intermeditate projects from django courses and needs to 
 
 first install venv(virtual environment)
 then install requirements.txt packeges 
-and then,makemigration and migrate
-last you must createsuper user for add product and settings but without creating super user it works.
-
+and then,migrate
+at last you must createsuper user for add product and settings;without creating super user it works but without adding products site seem's bad!
