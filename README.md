@@ -7,3 +7,6 @@ first install venv(virtual environment)
 then install requirements.txt packeges 
 and then,migrate
 at last you must createsuper user for add product and settings;without creating super user it works but without adding products site seem's bad!
+
+#TO_VISIT
+if you want to visit live this project you should try http://poornazari.pythonanywhere.com/
